@@ -6,3 +6,8 @@ cmake/sys.cmake.ext
 *.dat
 *.txt
 *.data
+*.local
+*.data
+*.log
+*.sim
+*.exadis

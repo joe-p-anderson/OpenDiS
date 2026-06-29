@@ -5,6 +5,8 @@ import sys, os
 pyexadis_paths = ['../../python', '../../lib', '../../core/pydis/python', '../../core/exadis/python/']
 [sys.path.append(os.path.abspath(path)) for path in pyexadis_paths if not path in sys.path]
 np.set_printoptions(threshold=20, edgeitems=5)
+config_helper_path = '../../python/config/'
+if not config_helper_path in sys.path: sys.path.append(config_helper_path)
 
 try:
     import pyexadis
@@ -13,6 +15,8 @@ try:
     from pyexadis_base import CalForce, MobilityLaw, TimeIntegration, Collision, Remesh
 except ImportError:
     raise ImportError('Cannot import pyexadis')
+
+from config_util import load_numpified_toml
 
 def init_frank_read_src_loop(arm_length=1.0, box_length=8.0, burg_vec=np.array([1.0,0.0,0.0]), pbc=False):
     '''Generate an initial Frank-Read source configuration
@@ -39,6 +43,8 @@ def init_frank_read_src_loop(arm_length=1.0, box_length=8.0, burg_vec=np.array([
 def main(plot=True):
     global net, sim, state
     
+    config = load_numpified_toml("exadis_config.toml")
+
     Lbox = 1000.0
     net = init_frank_read_src_loop(box_length=Lbox, arm_length=0.125*Lbox, pbc=True)
 
@@ -77,7 +83,7 @@ if __name__ == "__main__":
 
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--no-plot', dest='plot', action='store_false', default=True)
+    parser.add_argument('--plot', dest='plot', action='store_true', default=False)
     args = parser.parse_args()
 
     main(plot=args.plot)

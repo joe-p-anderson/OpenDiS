@@ -1,0 +1,9 @@
+{
+    "extraPaths": [
+        "../python",
+        "../lib",
+        "../core/pydis/python",
+        "../core/exadis/python",
+        "../python/config/"
+    ]
+}

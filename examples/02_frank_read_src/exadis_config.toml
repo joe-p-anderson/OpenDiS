@@ -1,0 +1,40 @@
+[simulation-state]
+    burgmag = 3e-10
+    mu      = 50e9
+    nu      = 0.3
+    a       = 1.0
+    maxseg  = 40
+    minseg  = 10
+    rann    = 3.0
+
+
+
+[force-calculation]
+    force_mode  = 'LineTension'
+
+[mobility-law]
+    mobility_law = 'SimpleGlide'
+
+[time-integration]
+    integrator  = 'EulerForward'
+    dt          = 1.0e-8
+
+[collision]
+    collision_mode = 'Retroactive'
+
+#[topology]
+
+[remesh]
+    remesh_rule='LengthBased'
+
+[sim]
+    max_step =  200
+    loading_mode = 'stress'
+    applied_stress = [0.0, 0.0, 0.0, 0.0, -4.0e8, 0.0]
+    print_freq = 10
+    plot_freq = 10
+    plot_pause_seconds = 0.01
+    write_freq = 10
+    write_dir = 'output'
+    numpy = ['applied_stress']
+

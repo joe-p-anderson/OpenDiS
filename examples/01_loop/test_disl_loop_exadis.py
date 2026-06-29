@@ -44,7 +44,7 @@ def main():
     remesh    = None #Remesh(remesh_rule='LengthBased', state=state)
     
     sim = SimulateNetwork(calforce=calforce, mobility=mobility, timeint=timeint, 
-                          collision=collision, topology=topology, remesh=remesh, vis=vis,
+                          collision=collision, topology=topology, remesh=remesh, vis=None,
                           max_step=100, loading_mode='stress', state=state,
                           applied_stress=np.array([0.0, 0.0, 0.0, 0.0, -2.0e6, 0.0]),
                           print_freq=10, plot_freq=10, plot_pause_seconds=0.0001,
