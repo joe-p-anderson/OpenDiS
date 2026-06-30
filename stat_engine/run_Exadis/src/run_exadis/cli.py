@@ -2,7 +2,7 @@ import click
 
 from run_exadis.resume_seed import resume_from_seed
 from run_exadis.run_seed import run_new_from_seed_no
-from run_exadis.show_stress_strain import show_stats
+from run_exadis.show_stress_strain import get_all_data_paths, plot_summaries, show_stats
 
 
 @click.group()
@@ -38,5 +38,8 @@ def plot_stats(seed,axis,w,l):
     show_stats(seed,axis,include_walltime=w,logarithmic=l)
 
 @cli.command()
-def plot_summary():
-    pass
+@click.option('--omit','-o', multiple=True,help="Directories to omit from the summary plot (accepts multiple, e.g. -o d1 -o d2).")
+@click.option('--filter','-f', default=0, help="Minimum number of files in a directory needed to qualify for the summary plot.")
+def plot_summary(omit,filter):
+    paths = get_all_data_paths("data/",omit=omit,filter=filter)
+    plot_summaries(paths)
