@@ -16,8 +16,8 @@ def run_seed(seed):
     run_new_from_seed_no(seed)
 
 @cli.command()
-@click.option('--seed', '-s', default=100,help="Which seed was used for the original simulation")
-@click.option('--axis','-a', default="001",help="Crystallographic axis for tensile loading, used for finding the simulation.")
+@click.option('--seed', '-s', default=100,help="Which seed was used for the original simulation (default: 100)")
+@click.option('--axis','-a', default="001",help="Crystallographic axis for tensile loading, used for finding the simulation. (default: 001)")
 @click.option('--restart','-r', default=None,help="Which restart file to use")
 @click.option('--root-config','-rc', is_flag=True, help="Use the root config instead of the original one used.")
 def resume_seed(seed,axis,restart,root_config):
@@ -25,8 +25,8 @@ def resume_seed(seed,axis,restart,root_config):
     resume_from_seed(str(seed), axis, restart,use_root_config=root_config)
 
 @cli.command()
-@click.option('--seed', '-s', default=100,help="Which seed was used for the original simulation")
-@click.option('--axis','-a', default="001",help="Crystallographic axis for tensile loading, used for finding the simulation.")
+@click.option('--seed', '-s', default=100,help="Which seed was used for the original simulation (default: 100)")
+@click.option('--axis','-a', default="001",help="Crystallographic axis for tensile loading, used for finding the simulation. (default: 001)")
 @click.option('-w',help="Show walltime plot", is_flag=True)
 @click.option('-l',help="Show walltime as log-log", is_flag=True)
 def plot_stats(seed,axis,w,l):
@@ -40,6 +40,19 @@ def plot_stats(seed,axis,w,l):
 @cli.command()
 @click.option('--omit','-o', multiple=True,help="Directories to omit from the summary plot (accepts multiple, e.g. -o d1 -o d2).")
 @click.option('--filter','-f', default=0, help="Minimum number of files in a directory needed to qualify for the summary plot.")
-def plot_summary(omit,filter):
+@click.option('--ls',is_flag=True, help="Use to display the seeds and their number of files, not plotting any summary.")
+def summary(omit,filter,ls):
     paths = get_all_data_paths("data/",omit=omit,filter=filter)
-    plot_summaries(paths)
+    if not ls:
+        plot_summaries(paths)
+
+@cli.command()
+@click.option('--seed', '-s', default=100,help="Which seed was used for the original simulation (default: 100)")
+@click.option('--axis','-a', default="001",help="Crystallographic axis for tensile loading, used for finding the simulation. (default: 001)")
+@click.option('--verbose','-v', is_flag=True,help="Output some basic info regarding slip systems for debugging.")
+@click.option('--safe', is_flag=True, help="Ask before clearing the directory")
+def make_vtk(seed,axis,verbose,safe):
+    from run_exadis.convert_vtk import clear_vtk, make_vtk, make_run_metadata
+    clear_vtk(safe=safe)
+    make_vtk(seed,axis,verbose=verbose)
+    make_run_metadata(seed,axis)
