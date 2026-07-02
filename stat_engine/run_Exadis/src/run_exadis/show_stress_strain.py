@@ -35,6 +35,18 @@ def plot_dens_strain(ax,df,label="Density vs Strain"):
     ax.set_xlabel("Strain (%)")
     ax.set_ylabel(r"Dislocation Density ($\mathrm{\mu m}^{-2}$)")
     ax.set_title(label)
+
+def fit_wall_strain(wall,strain):
+    # Fit a linear model to the wall time vs strain data
+    coeffs = np.polyfit(np.log(strain),np.log(wall), 1)
+    powerlaw = lambda e: np.exp(coeffs[1]) * e**coeffs[0]
+    return powerlaw
+def print_wall_strain_fit(powerlaw):
+    strains = np.array([.5,1,2])
+    print("Estimated time to:")
+    for s in strains:
+        print(f"  Strain = {s} % : {powerlaw(s)} h")
+
 def plot_wall_strain(ax,df,label="Strain vs Walltime",logarithmic=False):
     ax.plot(df["Walltime"]/3600, df["Strain"]*1e2)
     maxday = df["Walltime"].max()/3600 > 24
@@ -48,6 +60,9 @@ def plot_wall_strain(ax,df,label="Strain vs Walltime",logarithmic=False):
     if logarithmic:
         ax.set_xscale('log')
         ax.set_yscale('log')
+        powerlaw = fit_wall_strain(df["Walltime"]/3600, df["Strain"]*1e2)
+        ax.plot(powerlaw(df["Strain"]*1e2),df["Strain"]*1e2, color='k', linestyle='--', label="Power law fit")
+    
     ax.set_title(label)
 
 
@@ -64,6 +79,8 @@ def show_stats(seed,axis,include_walltime=False,logarithmic=False):
 
     if include_walltime:
         plot_wall_strain(ax3,df,label=f"Strain vs Wall Time",logarithmic=logarithmic)
+        powerlaw = fit_wall_strain(df["Walltime"]/3600, df["Strain"]*1e2)
+        print_wall_strain_fit(powerlaw)
 
     plt.show()
 

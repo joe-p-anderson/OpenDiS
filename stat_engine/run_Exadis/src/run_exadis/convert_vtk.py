@@ -3,16 +3,7 @@ import os, glob, sys
 
 from run_exadis.slip_system import whichb, whichn, nlist, whichslip
 
-pyexadis_paths = [
-    '/home/janderson19/Research/OpenDiS_home/python',
-    '/home/janderson19/Research/OpenDiS_home/lib',
-    '/home/janderson19/Research/OpenDiS_home/core/pydis/python',
-    '/home/janderson19/Research/OpenDiS_home/core/exadis/python',
-    '/home/janderson19/Research/OpenDiS_home/python/config'
-    ]
-[sys.path.append(os.path.abspath(path)) for path in pyexadis_paths if not path in sys.path]
-
-import pyexadis
+from run_exadis.pyexadis_import import pyexadis
 from pyexadis_utils import read_paradis, write_vtk
 import numpy as np
 
@@ -86,5 +77,6 @@ def make_run_metadata(seed,axis,file=Path("run_name.txt")):
     lines = [f"Seed: {seed}", f"Loading axis : {axis}"]
 
     with open(pvfilepath / file,'w') as f:
-        f.writelines(lines)
+        for line in lines:
+            f.write(line+"\n")
 

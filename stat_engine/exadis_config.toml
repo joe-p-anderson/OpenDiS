@@ -1,5 +1,6 @@
 [initial-configuration]
-    Lbox = [4.4e-6, 4.87e-6, 5.74e-6] # m
+    #Lbox = [4.4e-6, 4.87e-6, 5.74e-6] # m
+    Lbox = 5e-6 # m
     dens = 2e12 # m^-2
     radius  = 1e-6 # m
 
@@ -43,7 +44,7 @@
     loading_mode = 'strain_rate'
     erate = 1e3
     edir = [0.0, 0.0, 1.0]
-    max_strain = 2e-2
+    max_strain = 1.5e-2
     # max_step=500
     burgmag = 2.55e-10
     print_freq = 10

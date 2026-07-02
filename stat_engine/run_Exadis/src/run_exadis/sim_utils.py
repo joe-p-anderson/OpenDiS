@@ -2,19 +2,10 @@ import os, sys
 import numpy as np
 from pathlib import Path
 
-# Import pyexadis
-pyexadis_paths = [
-    '/home/janderson19/Research/OpenDiS_home/python',
-    '/home/janderson19/Research/OpenDiS_home/lib',
-    '/home/janderson19/Research/OpenDiS_home/core/pydis/python',
-    '/home/janderson19/Research/OpenDiS_home/core/exadis/python',
-    '/home/janderson19/Research/OpenDiS_home/python/config'
-    ]
-[sys.path.append(os.path.abspath(path)) for path in pyexadis_paths if not path in sys.path]
 np.set_printoptions(threshold=20, edgeitems=5)
 
 try:
-    import pyexadis
+    from run_exadis.pyexadis_import import pyexadis
     from pyexadis_base import ExaDisNet, DisNetManager, SimulateNetworkPerf as SimulateNetwork, read_restart
     from pyexadis_base import CalForce, MobilityLaw, TimeIntegration, Collision, Topology, Remesh
 except ImportError:
